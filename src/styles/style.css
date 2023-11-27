@@ -1,0 +1,42 @@
+:root {
+  --square-size: calc(10vh - 2px);
+}
+
+#container {
+	background-color: burlywood;
+	display: flex;
+	height: 100vh;
+	width: 100vw;
+}
+
+#gameboard {
+  border: 15px solid sienna;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(8, 1fr);
+  height: 80vh;
+  margin: auto;
+  width: 80vh;
+}
+
+.square {
+  border: 1px solid bisque;
+  height: var(--square-size);
+  width: var(--square-size);
+}
+
+.light {
+  background-color: bisque;
+}
+
+.dark {
+  background-color: sienna;
+}
+
+.piece {
+	background-size: contain;
+	height: 9vh;
+	margin: 0.5vh;
+	width: 9vh;
+}
+
