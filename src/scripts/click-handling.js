@@ -1,27 +1,62 @@
-import { getValidMoves } from './square-helpers';
+import { addHover, getCoordsFromE, getValidMoves, isAJump, removeHover, removeJumpedPiece } from './square-helpers';
 
-const addPieceClickListeners = (setCurrentPiece) => {
-  console.log('addPieceClickListeners');
+let startCoords;
+let currentPiece;
+
+const getCurrentPiece = () => currentPiece;
+
+const addPieceClickListeners = () => {
   const whitePieces = document.querySelectorAll('.white-piece');
-  console.log('whitePieces:', whitePieces);
-  whitePieces.forEach(piece => {
-    piece.addEventListener('click', () => pieceClickHandler(piece, setCurrentPiece));
-  });
+  for (const piece of whitePieces) {
+    piece.addEventListener('click', handlePieceClick);
+  }
 };
 
-const pieceClickHandler = (piece, setCurrentPiece) => {
-  setCurrentPiece(piece);
-  getValidMoves(piece);
+const handlePieceClick = (e) => {
+  currentPiece = e.target;
+  startCoords = getCoordsFromE(e);
+  const isKing = currentPiece.classList.contains('king');
+  const squares = getValidMoves(e, true, isKing);
+  addHover(squares);
+  for (const square of squares) {
+    square.addEventListener('click', handleSquareClick);
+  }
 };
 
-const addSquareClickListeners = (squares, setCurrentTarget) => {
-  squares.forEach(square => {
-    square.addEventListener('click', () => squareClickHandler(square, setCurrentTarget));
-  });
+const handleSquareClick = (e) => {
+  const square = e.target;
+  const piece = getCurrentPiece();
+  console.log('handleSquareClick e:', e);
+  console.log('handleSquareClick square:', square);
+  console.log('handleSquareClick piece:', piece);
+  square.append(piece);
+  if (isAJump(startCoords, square)) {
+    removeJumpedPiece(startCoords, square);
+  }
+  resetAfterMove();
 };
 
-const squareClickHandler = (square, setCurrentTarget) => {
-  setCurrentTarget(square);
+const resetAfterMove = () => {
+  currentPiece = undefined;
+  startCoords = undefined;
+  removeHover();
+  removePieceListeners();
+  removeSquareListeners();
+  addPieceClickListeners();
 };
 
-export { addPieceClickListeners, addSquareClickListeners };
+const removePieceListeners = () => {
+  const whitePieces = document.querySelectorAll('.white-piece');
+  for (const piece of whitePieces) {
+    piece.removeEventListener('click', handlePieceClick);
+  }
+};
+
+const removeSquareListeners = () => {
+  const squares = document.querySelectorAll('.game-square');
+  for (const square of squares) {
+    square.removeEventListener('click', handleSquareClick);
+  }
+};
+
+export { addPieceClickListeners };

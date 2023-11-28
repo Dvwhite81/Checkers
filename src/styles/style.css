@@ -33,10 +33,13 @@
   background-color: sienna;
 }
 
+.valid {
+  background-color: gold !important;
+}
+
 .piece {
 	background-size: contain;
 	height: 9vh;
 	margin: 0.5vh;
 	width: 9vh;
 }
-

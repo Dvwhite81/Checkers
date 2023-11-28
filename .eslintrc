@@ -1,46 +1,68 @@
 {
-  "env": {
-    "browser": true,
-    "es2021": true,
-    "node": true
-  },
-  "extends": ["airbnb", "airbnb/hooks", "plugin:prettier/recommended", "plugin:react/jsx-runtime"],
-  "plugins": ["react", "prettier"],
-  "rules": {
-    "prettier/prettier": "error",
-    "no-unused-vars": "warn",
-    "no-console": "off",
-    "func-names": "off",
-    "no-process-exit": "off",
-    "object-shorthand": "off",
-    "class-methods-use-this": "off",
-    "no-plusplus": "off",
-    "eqeqeq": "off",
-    "no-use-before-define": "off",
-    "no-param-reassign":"off",
-    "import/no-cycle": "off",
-    "import/no-extraneous-dependencies": "off",
-    "react/prop-types": "off",
-    "react/no-unknown-property": "off",
-    "react/no-unescaped-entities": "off",
-    "no-return-assign":"off",
-    "jsx-a11y/no-static-element-interactions": "off",
-    "jsx-a11y/click-events-have-key-events": "off",
-    "jsx-a11y/mouse-events-have-key-events": "off",
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
-  },
-  "overrides": [],
-  "parserOptions": {
-    "ecmaVersion": "latest",
-    "sourceType": "module"
-  },
-  "settings": {
-    "import/resolver": {
-      "node": {
-        "extensions": [".js"],
-        "moduleDirectory": ["node_modules", "src/"]
-      }
-    }
-  },
-  "ignorePatterns": ["**/*.html"]
+	"env": {
+		"browser": true,
+		"es2021": true,
+		"node": true
+	},
+	"extends": [
+		"eslint:recommended",
+		"plugin:prettier/recommended",
+		"plugin:import/recommended",
+		"plugin:promise/recommended",
+		"plugin:sonarjs/recommended",
+		"plugin:unicorn/recommended"
+	],
+	"overrides": [],
+	"parserOptions": {
+		"ecmaVersion": "latest",
+		"sourceType": "module"
+	},
+	"plugins": ["prettier", "import", "simple-import-sort", "promise", "sonarjs", "unicorn"],
+	"settings": {
+		"import/resolver": {
+			"node": {
+				"extensions": [".js"],
+				"moduleDirectory": ["node_modules", "src/"]
+			}
+		}
+	},
+	"ignorePatterns": ["**/*.html"],
+	"rules": {
+		// base
+		"indent": ["error", 2],
+		"quotes": ["error", "single"],
+		"semi": ["error", "always"],
+		// end
+
+		// prettier
+		"arrow-body-style": "off",
+		"prefer-arrow-callback": "off",
+		"prettier/prettier": [
+			"error",
+			{
+				"printWidth": 120,
+				"tabWidth": 2,
+				"useTabs": false,
+				"semi": true,
+				"singleQuote": true,
+				"jsxSingleQuote": true,
+				"trailingComma": "none",
+				"bracketSpacing": true,
+				"bracketSameLine": false,
+				"arrowParens": "always"
+			}
+		],
+		// end prettier
+
+		// simple-import-sort
+		"simple-import-sort/imports": "error",
+		"simple-import-sort/exports": "error",
+		"import/first": "error",
+		"import/newline-after-import": "error",
+		"import/no-duplicates": "error",
+		// end simple-import-sort
+
+		// unicorn
+		"unicorn/prevent-abbreviations": "off"
+	}
 }
