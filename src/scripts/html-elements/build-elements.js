@@ -1,7 +1,7 @@
 import WhitePiece from '../../assets/images/piece1.png';
 import BlackPiece from '../../assets/images/piece2.png';
+import { resetAfterMove } from '../clicks/player-handling';
 import { playGame } from '../game/play-game';
-import { resetAfterMove } from '../player/click-handling';
 import { buildElement, coordsIn, isEven, pieceCoords, whiteCoords } from './build-helpers';
 
 const container = document.querySelector('#container');
@@ -67,13 +67,16 @@ const createModal = () => {
   closeSpan.innerHTML = '&times';
   closeSpan.addEventListener('click', closeModal);
   modal.append(closeSpan);
+  const content = buildElement({ id: 'modal-content' });
+  modal.append(content);
   container.append(modal);
 };
 
 const openModal = (message) => {
   const modal = document.querySelector('#myModal');
   modal.style.display = 'flex';
-  modal.innerHTML = message;
+  const content = document.querySelector('#modal-content');
+  content.innerHTML = message;
 };
 
 const closeModal = () => {
@@ -113,13 +116,13 @@ export const showSkip = () => {
   skipButton.style.display = 'block';
 };
 
-const hideSkip = () => {
+export const hideSkip = () => {
   const skipButton = document.querySelector('#skip-btn');
   skipButton.style.display = 'none';
 };
 
 const skipMove = () => {
-  resetAfterMove();
+  resetAfterMove(true);
   hideSkip();
 };
 

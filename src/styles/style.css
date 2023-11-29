@@ -97,19 +97,24 @@
   border-radius: 10px;
   color: bisque;
   display: none;
-  flex-direction: column;
   height: 50%;
   left: 50%;
-  justify-content: space-around;
   overflow: auto;
   padding: 1rem;
   position: fixed;
-  text-align: center;
   top: 50%;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
   width: 50%;
   z-index: 1;
+}
+
+#modal-content {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	text-align: center;
+	width: 100%;
 }
 
 #close-modal {
@@ -130,7 +135,7 @@
 
 #play-again-btn {
 	background-color: bisque;
-	border: none;
+  border: 1px solid bisque;
 	border-radius: 10px;
 	color: sienna;
 	cursor: pointer;

@@ -1,12 +1,11 @@
 import WhiteKing from '../../assets/images/piece1-king.png';
 import BlackKing from '../../assets/images/piece2-king.png';
+import { continuePlayerMove, setStartCoords } from '../clicks/player-handling';
 import { continueComputerMove } from '../computer/computer-handling';
 import { showSkip } from '../html-elements/build-elements';
-import { continuePlayerMove, setStartCoords } from '../player/click-handling';
 import { endGame } from './play-game';
 
 const movePiece = (startCoords, square, piece, isPlayer, resetAfterMove) => {
-  console.log('movePiece');
   square.append(piece);
 
   if (!isPlayer) {
@@ -18,20 +17,17 @@ const movePiece = (startCoords, square, piece, isPlayer, resetAfterMove) => {
   }
 
   const jumped = isAJump(startCoords, square);
-  console.log('movePiece jumped:', jumped);
   if (jumped) {
-    console.log('calling handleJump from movePiece if jumped');
     handleJump(startCoords, square, piece, isPlayer, resetAfterMove);
   } else if (isPlayer && !jumped) {
-    resetAfterMove();
+    resetAfterMove(true);
   }
 };
 
 const getJumpMoves = (newCoords, isPlayer, isKing) => {
-  console.log('getJumpMoves');
   const jumpMoves = [];
   const valid = getValidMoves(newCoords, isPlayer, isKing);
-  console.log('getJumpMoves valid:', valid);
+
   if (valid.length > 0) {
     for (const square of valid) {
       if (isAJump(newCoords, square)) {
@@ -39,26 +35,24 @@ const getJumpMoves = (newCoords, isPlayer, isKing) => {
       }
     }
   }
+
   return jumpMoves;
 };
 
 const handleJump = (startCoords, square, piece, isPlayer, resetAfterMove) => {
-  console.log('handleJump');
-  console.log('calling removeJumpedPiece from handleJump');
   removeJumpedPiece(startCoords, square);
   const newCoords = getCoordsFromPiece(piece);
   const isKing = piece.classList.contains('king');
   const possibleMoves = getJumpMoves(newCoords, isPlayer, isKing);
-  console.log('handleJump possibleMoves:', possibleMoves);
   const canJumpAgain = possibleMoves.length > 0;
+
   if (isPlayer) {
     if (canJumpAgain) {
-      console.log('handleJump if canJumpAgain');
       setStartCoords(newCoords);
       continuePlayerMove(possibleMoves);
       showSkip();
     } else {
-      resetAfterMove();
+      resetAfterMove(true);
     }
   } else {
     if (canJumpAgain) {
@@ -88,7 +82,6 @@ const getCoordsFromSquare = (square) => {
 };
 
 const getValidMoves = (coords, isPlayer, isKing) => {
-  console.log('getValidMoves');
   const squares = [];
   const adjCoords = getAdjCoords(coords, isPlayer, isKing);
 
@@ -133,57 +126,46 @@ const getAdjCoords = (coords, isPlayer, isKing) => {
 const squareHasOpponentPiece = (square, isPlayer) => {
   const opponent = isPlayer ? 'black-piece' : 'white-piece';
   let hasOpponent = false;
+
   if (square.children.length > 0 && square.children[0].classList.contains(opponent)) {
     hasOpponent = true;
   }
+
   return hasOpponent;
 };
 
 const getJumpableSquare = (coords, square, isPlayer) => {
   const [x, y] = coords;
+
   if (squareHasOpponentPiece(square, isPlayer)) {
     const squareCoords = getCoordsFromSquare(square);
     const [squareX, squareY] = squareCoords;
     const [xDiff, yDiff] = [x - squareX, y - squareY];
     const nextCoords = [squareX - xDiff, squareY - yDiff];
     const nextSquare = document.querySelector(`[coords="${nextCoords}"]`);
+
     if (nextSquare && isEmpty(nextSquare)) {
       return nextSquare;
     }
   }
+
   return false;
 };
 
 const isAJump = (coords, square) => {
-  console.log('isAJump');
-  console.log('isAJump coords:', coords);
-  console.log('isAJump square:', square);
-
   const squareCoords = getCoordsFromSquare(square);
-  console.log('isAJump squareCoords:', squareCoords);
-
   const [xDiff, yDiff] = [coords[0] - squareCoords[0], coords[1] - squareCoords[1]];
-  console.log('isAJump [xDiff, yDiff]:', [xDiff, yDiff]);
-
   const validDiffs = new Set([2, -2]);
-  console.log('isAJump validDiffs:', validDiffs);
 
   return [xDiff, yDiff].every((num) => validDiffs.has(num));
 };
 
 const removeJumpedPiece = (startCoords, square) => {
-  console.log('removeJumpedPiece startCoords:', startCoords);
   const [startX, startY] = startCoords;
   const [squareX, squareY] = getCoordsFromSquare(square);
-
   const jumpedCoords = [Math.max(startX, squareX) - 1, Math.max(startY, squareY) - 1];
-  console.log('removeJumpedPiece jumpedCoords:', jumpedCoords);
-
   const jumpedSquare = document.querySelector(`[coords="${jumpedCoords}"]`);
-  console.log('removeJumpedPiece jumpedSquare:', jumpedSquare);
-
   const piece = jumpedSquare.children[0];
-  console.log('removeJumpedPiece piece:', piece);
   piece.remove();
 };
 
@@ -194,8 +176,8 @@ const inValidRange = (num) => num >= 0 && num <= 7;
 const isEmpty = (square) => square.children.length === 0;
 
 const addHover = (squares) => {
-  console.log('addHover');
   removeHover();
+
   for (const square of squares) {
     square.classList.add('valid');
   }
@@ -203,7 +185,10 @@ const addHover = (squares) => {
 
 const removeHover = () => {
   const squares = document.querySelectorAll('.valid');
-  for (const square of squares) square.classList.remove('valid');
+
+  for (const square of squares) {
+    square.classList.remove('valid');
+  }
 };
 
 const addPreviousEffect = (prevCoords, currentSquare) => {
@@ -213,13 +198,14 @@ const addPreviousEffect = (prevCoords, currentSquare) => {
 };
 
 const removePreviousEffect = () => {
-  console.log('removePrevious');
   const previous = document.querySelectorAll('.previous');
+
   if (previous) {
-    console.log('previous:', previous);
     for (const square of previous) square.classList.remove('previous');
   }
+
   const current = document.querySelectorAll('.current');
+
   if (current) {
     for (const square of current) square.classList.remove('current');
   }
@@ -239,12 +225,26 @@ const makePieceKing = (piece) => {
   piece.classList.add('king');
 };
 
+const getInvalidSquares = () => {
+  const invalid = [];
+  const allSquares = document.querySelectorAll('.square');
+  for (const square of allSquares) {
+    console.log('getInvalid:', square);
+    if (!square.classList.contains('valid')) {
+      console.log('!contains:', square);
+      invalid.push(square);
+    }
+  }
+  return invalid;
+};
+
 export {
   addHover,
   coordsOnBoard,
   getCoordsFromE,
   getCoordsFromPiece,
   getCoordsFromSquare,
+  getInvalidSquares,
   getJumpableSquare,
   getSquareFromCoords,
   getValidMoves,
