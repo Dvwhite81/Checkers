@@ -9,11 +9,13 @@ const computerMove = () => {
 
   console.log('randomPiece:', randomPiece);
   console.log('randomSquare:', randomSquare);
-  const { piece } = randomPiece;
-  const startCoords = getCoordsFromPiece(piece);
-  setTimeout(() => {
-    movePiece(startCoords, randomSquare, piece, false);
-  }, 500);
+  if (randomPiece && randomSquare) {
+    const { piece } = randomPiece;
+    const startCoords = getCoordsFromPiece(piece);
+    setTimeout(() => {
+      movePiece(startCoords, randomSquare, piece, false);
+    }, 500);
+  }
 };
 
 const continueComputerMove = (piece) => {
@@ -37,10 +39,14 @@ const getRandomPiece = (pieces) => {
 const getValidPieces = (pieces) => {
   const validPieces = [];
   for (const piece of pieces) {
+    console.log('piece:', piece);
     const coords = getCoordsFromPiece(piece);
+    const isPlayer = piece.classList.contains('white-piece');
     const isKing = piece.classList.contains('king');
-    const valid = getValidMoves(coords, false, isKing);
-
+    const valid = getValidMoves(coords, isPlayer, isKing);
+    console.log('coords:', coords);
+    console.log('isKing:', isKing);
+    console.log('valid:', valid);
     if (valid.length > 0) {
       validPieces.push({ piece: piece, moves: valid });
     }
@@ -57,4 +63,4 @@ const getRandomSquare = (piece) => {
   }
 };
 
-export { computerMove, continueComputerMove };
+export { computerMove, continueComputerMove, getValidPieces };

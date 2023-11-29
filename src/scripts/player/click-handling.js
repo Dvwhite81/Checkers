@@ -45,6 +45,7 @@ const waitForMove = () => {
 const handlePieceClick = (e) => {
   console.log('handlePieceClick');
   removePreviousEffect();
+  removePointer();
   currentPiece = e.target;
   startCoords = getCoordsFromE(e);
   const isKing = currentPiece.classList.contains('king');
@@ -55,6 +56,7 @@ const handlePieceClick = (e) => {
 const continuePlayerMove = (squares) => {
   console.log('continuePlayerMove');
   addHover(squares);
+  addPointer(squares);
   for (const square of squares) {
     square.addEventListener('click', handleSquareClick);
   }
@@ -72,6 +74,7 @@ const resetAfterMove = () => {
   currentPiece = undefined;
   startCoords = undefined;
   removeHover();
+  removePointer();
   removePieceListeners();
   removeSquareListeners();
   setTurnOver(true);
@@ -88,6 +91,19 @@ const removeSquareListeners = () => {
   const squares = document.querySelectorAll('.game-square');
   for (const square of squares) {
     square.removeEventListener('click', handleSquareClick);
+  }
+};
+
+const addPointer = (pieces) => {
+  for (const piece of pieces) {
+    piece.classList.add('pointer');
+  }
+};
+
+const removePointer = () => {
+  const pointerPieces = document.querySelectorAll('.pointer');
+  for (const piece of pointerPieces) {
+    piece.classList.remove('pointer');
   }
 };
 

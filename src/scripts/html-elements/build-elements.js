@@ -1,8 +1,18 @@
 import WhitePiece from '../../assets/images/piece1.png';
 import BlackPiece from '../../assets/images/piece2.png';
+import { playGame } from '../game/play-game';
+import { resetAfterMove } from '../player/click-handling';
 import { buildElement, coordsIn, isEven, pieceCoords, whiteCoords } from './build-helpers';
 
 const container = document.querySelector('#container');
+
+const domSetup = () => {
+  clearDom();
+  createBoard();
+  createHelpButton();
+  createModal();
+  createSkip();
+};
 
 const createBoard = () => {
   const board = buildElement({ id: 'gameboard' });
@@ -42,15 +52,92 @@ const createPiece = (coords) => {
   return buildElement({ className: `piece ${color}-piece` }, {}, { backgroundImage: `url(${img})` });
 };
 
+const createHelpButton = () => {
+  const helpBtn = document.createElement('button');
+  helpBtn.id = 'open-modal-btn';
+  helpBtn.textContent = 'Help';
+  helpBtn.addEventListener('click', () => openModal(helpMessage));
+  container.append(helpBtn);
+};
+
+const createModal = () => {
+  const modal = buildElement({ id: 'myModal' });
+  const closeSpan = document.createElement('span');
+  closeSpan.id = 'close-modal';
+  closeSpan.innerHTML = '&times';
+  closeSpan.addEventListener('click', closeModal);
+  modal.append(closeSpan);
+  container.append(modal);
+};
+
+const openModal = (message) => {
+  const modal = document.querySelector('#myModal');
+  modal.style.display = 'flex';
+  modal.innerHTML = message;
+};
+
+const closeModal = () => {
+  const modal = document.querySelector('#myModal');
+  modal.style.display = 'none';
+};
+
+export const changeMessage = (message) => {
+  openModal(message);
+};
+
+const helpMessage = `
+  <h3>Click or drag a light piece to move it!</h3>
+  <p>Gold squares show valid moves.</p>
+  <p>Blue and white squares show the computer's last move.</p>
+`;
+
+const playAgainMessage = (winner) => `
+    <h2>${winner} won the game!</h2>
+    <h3>Play again?</h3>
+    <button id="play-again-btn">
+      Sure!
+    </button>
+`;
+
+const createSkip = () => {
+  const skipButton = document.createElement('button');
+  skipButton.id = 'skip-btn';
+  skipButton.textContent = "Don't jump";
+  skipButton.style.display = 'none';
+  container.append(skipButton);
+};
+
+export const showSkip = () => {
+  const skipButton = document.querySelector('#skip-btn');
+  skipButton.addEventListener('click', skipMove);
+  skipButton.style.display = 'block';
+};
+
+const hideSkip = () => {
+  const skipButton = document.querySelector('#skip-btn');
+  skipButton.style.display = 'none';
+};
+
+const skipMove = () => {
+  resetAfterMove();
+  hideSkip();
+};
+
 const clearDom = () => {
   container.innerHTML = '';
 };
 
 export const showWinner = (winner) => {
-  clearDom();
-  const h1 = document.createElement('h1');
-  h1.textContent = `${winner} won the game! Play again?`;
-  container.append(h1);
+  changeMessage(playAgainMessage(winner));
+  const btn = document.querySelector('#play-again-btn');
+  btn.addEventListener('click', clearAndPlayAgain);
 };
 
-export default createBoard;
+const clearAndPlayAgain = () => {
+  console.log('clearAndPlayAgain');
+  clearDom();
+  domSetup();
+  playGame();
+};
+
+export default domSetup;

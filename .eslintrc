@@ -30,7 +30,7 @@
 	"rules": {
 		// base
 		"indent": ["error", 2],
-		"quotes": ["error", "single"],
+		"quotes": ["error", "single", { "avoidEscape": true }],
 		"semi": ["error", "always"],
 		// end
 

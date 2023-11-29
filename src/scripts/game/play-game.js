@@ -1,6 +1,6 @@
-import { addPieceClickListeners } from '../clicks/click-handling';
 import { computerMove } from '../computer/computer-handling';
 import { showWinner } from '../html-elements/build-elements';
+import { addPieceClickListeners } from '../player/click-handling';
 import { checkGameOver, getWinner } from './win-helpers';
 
 let winner;

@@ -2,6 +2,7 @@
   --square-size: calc(10vh - 2px);
 }
 
+/* Main container */
 #container {
 	background-color: burlywood;
 	display: flex;
@@ -9,6 +10,7 @@
 	width: 100vw;
 }
 
+/* Gameboard */
 #gameboard {
   border: 15px solid sienna;
   display: grid;
@@ -19,6 +21,7 @@
   width: 80vh;
 }
 
+/* Start Squares */
 .square {
   border: 1px solid bisque;
   height: var(--square-size);
@@ -35,13 +38,7 @@
 
 .valid {
   background-color: gold !important;
-}
-
-.piece {
-	background-size: contain;
-	height: 9vh;
-	margin: 0.5vh;
-	width: 9vh;
+  cursor: pointer;
 }
 
 .previous {
@@ -50,5 +47,101 @@
 
 .current {
   background-color: white !important;
-
 }
+/* End Squares */
+
+/* Start Pieces */
+.piece {
+	background-size: contain;
+  cursor: pointer;
+	height: 9vh;
+	margin: 0.5vh;
+	width: 9vh;
+}
+
+.pointer {
+  cursor: pointer;
+}
+/* End Pieces */
+
+/* Start Modal and Skip Button */
+#open-modal-btn,
+#skip-btn {
+  background-color: sienna;
+  border: none;
+  border-radius: 10px;
+  color: bisque;
+  cursor: pointer;
+  font-weight: bold;
+  left: 50%;
+  padding: 5px 10px;
+  position: absolute;
+  transform: translate(-50%, 0%);
+}
+
+#open-modal-btn {
+  top: 0.5rem;
+}
+
+#skip-btn {
+  bottom: 0.5rem;
+}
+
+#open-modal-btn:hover {
+  background-color: bisque;
+  color: sienna;
+}
+
+#myModal {
+	background-color: sienna;
+  border-radius: 10px;
+  color: bisque;
+  display: none;
+  flex-direction: column;
+  height: 50%;
+  left: 50%;
+  justify-content: space-around;
+  overflow: auto;
+  padding: 1rem;
+  position: fixed;
+  text-align: center;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  width: 50%;
+  z-index: 1;
+}
+
+#close-modal {
+	color: bisque;
+	font-size: 28px;
+	font-weight: bold;
+	position: absolute;
+	top: 0;
+	right: 5px;
+}
+
+#close-modal:hover,
+#close-modal:focus {
+	color: black;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+#play-again-btn {
+	background-color: bisque;
+	border: none;
+	border-radius: 10px;
+	color: sienna;
+	cursor: pointer;
+	font-weight: bold;
+	margin: 0 auto;
+	padding: 5px 10px;
+	width: fit-content;
+}
+
+#play-again-btn:hover {
+  background-color: sienna;
+  color: bisque;
+}
+/* End Modal */

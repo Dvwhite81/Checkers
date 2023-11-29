@@ -1,7 +1,8 @@
 import WhiteKing from '../../assets/images/piece1-king.png';
 import BlackKing from '../../assets/images/piece2-king.png';
-import { continuePlayerMove, setStartCoords } from '../clicks/click-handling';
 import { continueComputerMove } from '../computer/computer-handling';
+import { showSkip } from '../html-elements/build-elements';
+import { continuePlayerMove, setStartCoords } from '../player/click-handling';
 import { endGame } from './play-game';
 
 const movePiece = (startCoords, square, piece, isPlayer, resetAfterMove) => {
@@ -55,6 +56,7 @@ const handleJump = (startCoords, square, piece, isPlayer, resetAfterMove) => {
       console.log('handleJump if canJumpAgain');
       setStartCoords(newCoords);
       continuePlayerMove(possibleMoves);
+      showSkip();
     } else {
       resetAfterMove();
     }
