@@ -1,7 +1,7 @@
 import './styles/global.scss';
 
-import createBoard from './scripts/build-elements';
-import playGame from './scripts/play-game';
+import { playGame } from './scripts/game/play-game';
+import createBoard from './scripts/html-elements/build-elements';
 
 const setUp = () => {
   createBoard();

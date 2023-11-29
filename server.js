@@ -11,11 +11,11 @@ const compiler = webpack(config);
 const PORT = process.env.PORT || 3000;
 
 app.use(
-	webpackDevMiddleware(compiler, {
-		publicPath: config.output.publicPath
-	})
+  webpackDevMiddleware(compiler, {
+    publicPath: config.output.publicPath
+  })
 );
 
 app.listen(PORT, function () {
-	console.log(`Webpack app listening on port ${PORT}!\n`);
+  console.log(`Webpack app listening on port ${PORT}!\n`);
 });

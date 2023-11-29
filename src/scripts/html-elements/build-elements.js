@@ -1,5 +1,5 @@
-import WhitePiece from '../assets/images/piece1.png';
-import BlackPiece from '../assets/images/piece2.png';
+import WhitePiece from '../../assets/images/piece1.png';
+import BlackPiece from '../../assets/images/piece2.png';
 import { buildElement, coordsIn, isEven, pieceCoords, whiteCoords } from './build-helpers';
 
 const container = document.querySelector('#container');
@@ -38,9 +38,19 @@ const createSquare = (x, y, className) => {
 
 const createPiece = (coords) => {
   const color = coordsIn(coords, whiteCoords) ? 'white' : 'black';
-  const id = `${color}-piece-${coords}`;
   const img = color === 'white' ? WhitePiece : BlackPiece;
-  return buildElement({ id: id, className: `piece ${color}-piece` }, {}, { backgroundImage: `url(${img})` });
+  return buildElement({ className: `piece ${color}-piece` }, {}, { backgroundImage: `url(${img})` });
+};
+
+const clearDom = () => {
+  container.innerHTML = '';
+};
+
+export const showWinner = (winner) => {
+  clearDom();
+  const h1 = document.createElement('h1');
+  h1.textContent = `${winner} won the game! Play again?`;
+  container.append(h1);
 };
 
 export default createBoard;

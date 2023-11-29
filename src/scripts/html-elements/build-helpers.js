@@ -32,8 +32,7 @@ const blackCoords = [
   [2, 1],
   [2, 3],
   [2, 5],
-  [2, 7],
-  [4, 5]
+  [2, 7]
 ];
 
 const whiteCoords = [

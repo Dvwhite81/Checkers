@@ -43,3 +43,12 @@
 	margin: 0.5vh;
 	width: 9vh;
 }
+
+.previous {
+  background-color: blue !important;
+}
+
+.current {
+  background-color: white !important;
+
+}
